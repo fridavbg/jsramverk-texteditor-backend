@@ -1,16 +1,21 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 
 const app = express();
+
+const docs = require("./routes/docs");
+
 const port = 1337;
-const index = require("./routes/index");
-const hello = require("./routes/hello");
 
 app.use(cors());
-app.use(express.json());
-app.use("/", index);
-app.use("/hello", hello);
+app.options("*", cors());
+
+app.disable("x-powered-by");
+
+app.set("view engine", "ejs");
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== "test") {
@@ -18,84 +23,27 @@ if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
 }
 
-// This is middleware called for all routes.
-// Middleware takes three parameters.
-app.use((req, res, next) => {
-    console.log(req.method);
-    console.log(req.path);
-    next();
-});
-
-// Add routes for 404 and error handling
-// Catch 404 and forward to error handler
-// Put this last
-app.use((req, res, next) => {
-    var err = new Error("Not Found");
-    err.status = 404;
-    next(err);
-});
-
-app.use((err, req, res, next) => {
-    if (res.headersSent) {
-        return next(err);
-    }
-
-    res.status(err.status || 500).json({
-        errors: [
-            {
-                status: err.status,
-                title: err.message,
-                detail: err.message,
-            },
-        ],
-    });
-});
-
 // Add a route
 app.get("/", (req, res) => {
     const data = {
         data: {
-            msg: "Hello World",
+            msg: "Mainpage",
         },
     };
 
     res.json(data);
 });
 
-app.get("/hello/:msg", (req, res) => {
-    const data = {
-        data: {
-            msg: req.params.msg,
-        },
-    };
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    res.json(data);
-});
+app.use(express.static(path.join(__dirname, "public")));
 
-// Testing routes with method
-app.get("/doc", (req, res) => {
-    res.json({
-        data: {
-            msg: "Got a GET request",
-        },
-    });
-});
-
-app.post("/doc", (req, res) => {
-    res.status(201).json({
-        data: {
-            msg: "Got a POST request",
-        },
-    });
-});
-
-app.put("/doc", (req, res) => {
-    res.status(204).send();
-});
-
-app.delete("/doc", (req, res) => {
-    res.status(204).send();
-});
+app.use("/docs", docs);
 
 // Start up server
-app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server = app.listen(port, () =>
+    console.log(`Example API listening on port ${port}!`)
+);
+
+module.exports = server;
