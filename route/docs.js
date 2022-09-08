@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 router.post("/init", async (req, res) => {
     await docModel.init();
 
-    res.send("Added doc 1 and 2 to database");
+    res.send("Added doc 1 and doc 2 to database");
 });
 
 module.exports = router;
