@@ -14,8 +14,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const newDoc = req.body;
 
-    const result = docModel.insertDoc(newDoc);
-    res.status(201).json(result);
+    const result = await docModel.insertDoc(newDoc);
+    res.status(201).json({ data: result });
 });
 
 router.get("/init", async (req, res) => {

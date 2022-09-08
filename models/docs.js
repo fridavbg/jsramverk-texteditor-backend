@@ -29,7 +29,10 @@ const docs = {
 
             const result = await db.collection.insertOne(newDoc);
 
-            console.log(`${result} was inserted`);
+            return {
+                ...newDoc,
+                _id: result.insertedId,
+            };
         } catch (error) {
             console.error(error.message);
         } finally {

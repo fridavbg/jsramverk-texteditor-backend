@@ -10,6 +10,9 @@ Starta appen
 
 `npm start`
 
+## Runs on
+
+http://localhost:1337/
 ## Endpoints
 
 ### Main page
