@@ -11,10 +11,20 @@ router.get("/", async (req, res) => {
     });
 });
 
+// router.get("/init", async (req, res) => {
+//     res.send("tjo tjim!");
+// });
+
 router.post("/init", async (req, res) => {
     await docModel.init();
 
-    res.send("Added doc 1 and doc 2 to database");
+    res.send("tjo tjim!");
 });
+
+// router.post("/init", (req, res) => {
+//     res.json({
+//         data: "Got a POST request",
+//     });
+// });
 
 module.exports = router;
