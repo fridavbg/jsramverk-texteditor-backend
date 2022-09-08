@@ -11,20 +11,15 @@ router.get("/", async (req, res) => {
     });
 });
 
-// router.get("/init", async (req, res) => {
-//     res.send("tjo tjim!");
-// });
+router.post("/", async (req, res) => {
+    const newDoc = req.body;
 
-router.post("/init", async (req, res) => {
-    await docModel.init();
-
-    res.send("tjo tjim!");
+    const result = docModel.insertDoc(newDoc);
+    res.status(201).json(result);
 });
 
-// router.post("/init", (req, res) => {
-//     res.json({
-//         data: "Got a POST request",
-//     });
-// });
+router.get("/init", async (req, res) => {
+    res.send("tjo tjim!");
+});
 
 module.exports = router;

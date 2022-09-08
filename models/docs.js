@@ -21,6 +21,21 @@ const docs = {
             await db.client.close();
         }
     },
+    insertDoc: async function insertDoc(newDoc) {
+        let db;
+
+        try {
+            db = await database.getDb();
+
+            const result = await db.collection.insertOne(newDoc);
+
+            console.log(`${result} was inserted`);
+        } catch (error) {
+            console.error(error.message);
+        } finally {
+            await db.client.close();
+        }
+    },
     init: async function init() {
         let db;
 
