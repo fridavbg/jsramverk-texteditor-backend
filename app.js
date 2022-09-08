@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 
@@ -8,7 +7,7 @@ const app = express();
 
 const docs = require("./routes/docs");
 
-const port = 1337;
+const port = process.env.PORT || 1337;
 
 app.use(cors());
 app.options("*", cors());
@@ -23,6 +22,11 @@ if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
 }
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/docs", docs);
+
 // Add a route
 app.get("/", (req, res) => {
     const data = {
@@ -33,13 +37,6 @@ app.get("/", (req, res) => {
 
     res.json(data);
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use("/docs", docs);
 
 // Start up server
 const server = app.listen(port, () =>
