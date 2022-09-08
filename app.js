@@ -1,16 +1,18 @@
+require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
+const docs = require("./route/docs.js");
+
 const app = express();
-const port = 1337;
-const index = require("./routes/index");
-const hello = require("./routes/hello");
+const port = process.env.PORT || 1337;
 
 app.use(cors());
-app.use(express.json());
-app.use("/", index);
-app.use("/hello", hello);
+app.options("*", cors());
+
+app.disable("x-powered-by");
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== "test") {
@@ -18,83 +20,16 @@ if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined")); // 'combined' outputs the Apache style LOGs
 }
 
-// This is middleware called for all routes.
-// Middleware takes three parameters.
-app.use((req, res, next) => {
-    console.log(req.method);
-    console.log(req.path);
-    next();
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Add routes for 404 and error handling
-// Catch 404 and forward to error handler
-// Put this last
-app.use((req, res, next) => {
-    var err = new Error("Not Found");
-    err.status = 404;
-    next(err);
-});
-
-app.use((err, req, res, next) => {
-    if (res.headersSent) {
-        return next(err);
-    }
-
-    res.status(err.status || 500).json({
-        errors: [
-            {
-                status: err.status,
-                title: err.message,
-                detail: err.message,
-            },
-        ],
-    });
-});
+app.use("/docs", docs);
 
 // Add a route
 app.get("/", (req, res) => {
-    const data = {
-        data: {
-            msg: "Hello World",
-        },
-    };
-
-    res.json(data);
-});
-
-app.get("/hello/:msg", (req, res) => {
-    const data = {
-        data: {
-            msg: req.params.msg,
-        },
-    };
-
-    res.json(data);
-});
-
-// Testing routes with method
-app.get("/doc", (req, res) => {
     res.json({
-        data: {
-            msg: "Got a GET request",
-        },
+        msg: "Main page",
     });
-});
-
-app.post("/doc", (req, res) => {
-    res.status(201).json({
-        data: {
-            msg: "Got a POST request",
-        },
-    });
-});
-
-app.put("/doc", (req, res) => {
-    res.status(204).send();
-});
-
-app.delete("/doc", (req, res) => {
-    res.status(204).send();
 });
 
 // Start up server
