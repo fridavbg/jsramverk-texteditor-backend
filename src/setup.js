@@ -4,7 +4,7 @@
 "use strict";
 
 const mongo = require("mongodb").MongoClient;
-let dsn = `mongodb+srv://Frida:Varberg88@cluster0.uiqqcwu.mongodb.net/?retryWrites=true&w=majority`;
+let dsn = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.uiqqcwu.mongodb.net/?retryWrites=true&w=majority`;
 // const dsn = process.env.DBWEBB_DSN || "mongodb://localhost:27017/docs";
 
 const fs = require("fs");

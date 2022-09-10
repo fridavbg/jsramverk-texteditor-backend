@@ -4,7 +4,7 @@
 
 `npm start`
 
-## Runs on
+## Runs locally on
 
 http://localhost:1337
 
@@ -25,12 +25,6 @@ description
 
 --------
 ## Endpoints
-
-### Main page
-`/`
-
-Displays a main page
-
 ### Display all documents
 `http://localhost:1337/docs`
 
@@ -68,5 +62,5 @@ Displays a main page
 
 `http://localhost:1337/docs/init`
 
-- POST Will insert 4 documents with lorem ipsum text
+* POST request that will insert 4 documents with lorem ipsum text
     - parameters provided by data/docs.json
