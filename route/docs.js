@@ -20,10 +20,8 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/edit/(:id)", async (req, res) => {
-    var o_id = new ObjectId(req.params.id);
-    res.json({
-        id: req.params.id,
-    });
+    const result = await docModel.getOneDoc(req.params.id);
+    res.status(201).json({ data: result });
 });
 
 router.post("/init", async (req, res) => {

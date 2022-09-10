@@ -26,11 +26,14 @@ const docs = {
         let db;
         try {
             db = await database.getDb();
-            console.log(id);
+            console.log("ID: " + id);
 
-            const docById = db.collection.find({
-                _id: ObjectId(id),
-            });
+            const docById = await db.collection
+                .find({
+                    _id: ObjectId(id),
+                })
+                .toArray();
+
             console.log("Doc: " + docById);
 
             return docById;
