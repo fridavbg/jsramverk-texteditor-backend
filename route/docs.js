@@ -18,6 +18,13 @@ router.post("/create", async (req, res) => {
     res.status(201).json({ data: result });
 });
 
+
+router.get("/update", (req, res) => {
+    // const id = req.params.id;
+    // const details = { _id: new ObjectID(id) };
+    res.send("details");
+});
+
 router.post("/init", async (req, res) => {
     await docModel.init();
 

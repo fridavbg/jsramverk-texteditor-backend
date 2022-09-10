@@ -21,6 +21,26 @@ const docs = {
             await db.client.close();
         }
     },
+    getOneDoc: async function getOneDoc(id) {
+        let db;
+        try {
+            db = await database.getDb();
+
+            const docById = db.collection.find({
+                _id: ObjectId(id),
+            });
+            res.send("ID:" + id);
+            //return docById;
+        } catch (error) {
+            return {
+                errors: {
+                    message: error.message,
+                },
+            };
+        } finally {
+            await db.client.close();
+        }
+    },
     insertDoc: async function insertDoc(newDoc) {
         let db;
 
@@ -33,6 +53,33 @@ const docs = {
                 ...newDoc,
                 _id: result.insertedId,
             };
+        } catch (error) {
+            console.error(error.message);
+        } finally {
+            await db.client.close();
+        }
+    },
+    updateDoc: async function updateDoc(id) {
+        let db;
+
+        try {
+            console.log("update");
+
+            // db = await database.getDb(id);
+
+            // const filter = { _id: id };
+
+            // const updateDoc = {
+            //     $set: {
+            //         title: `${title}`,
+            //         description: `${description}`,
+            //     },
+            // };
+            // const result = await db.collection.updateOne(filter, updateDoc);
+
+            // console.log(
+            //     `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
+            // );
         } catch (error) {
             console.error(error.message);
         } finally {
