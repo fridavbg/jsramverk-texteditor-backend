@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var ObjectID = require("mongodb").ObjectID;
+var ObjectId = require("mongodb").ObjectID;
 
 const docModel = require("../models/docs");
 
@@ -19,10 +19,11 @@ router.post("/create", async (req, res) => {
     res.status(201).json({ data: result });
 });
 
-router.get("/view", (req, res) => {
-    const id = req.params.id;
-    const idToFindBy = { _id: new ObjectID(id) };
-    res.send(idToFindBy);
+router.get("/edit/(:id)", async (req, res) => {
+    var o_id = new ObjectId(req.params.id);
+    res.json({
+        id: req.params.id,
+    });
 });
 
 router.post("/init", async (req, res) => {

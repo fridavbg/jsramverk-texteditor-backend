@@ -1,5 +1,6 @@
 const database = require("../db/database");
 const initDocs = require("../data/docs.json");
+const { ObjectId } = require("mongodb");
 
 const docs = {
     getAllDocs: async function getAllDocs() {
@@ -25,12 +26,14 @@ const docs = {
         let db;
         try {
             db = await database.getDb();
+            console.log(id);
 
             const docById = db.collection.find({
                 _id: ObjectId(id),
             });
-            res.send("ID:" + id);
-            //return docById;
+            console.log("Doc: " + docById);
+
+            return docById;
         } catch (error) {
             return {
                 errors: {
