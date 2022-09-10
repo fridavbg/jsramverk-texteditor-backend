@@ -11,15 +11,17 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/create", async (req, res) => {
     const newDoc = req.body;
 
     const result = await docModel.insertDoc(newDoc);
     res.status(201).json({ data: result });
 });
 
-router.get("/init", async (req, res) => {
-    res.send("tjo tjim!");
+router.post("/init", async (req, res) => {
+    await docModel.init();
+
+    res.send("Added some docs to the database");
 });
 
 module.exports = router;

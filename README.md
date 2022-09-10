@@ -31,16 +31,23 @@ description
 
 Displays a main page
 
-### Document page
+### Display all documents
 `http://localhost:1337/docs`
 
 * GET request to show all documents within the database
 
+### Create a document
+
+`http://localhost:1337/docs/create`
 * POST request to insert one document
 
     - Required parameters
         - title
         - description  
+
+### Update a document
+
+`http://localhost:1337/docs/:_id`
 
 * PUT request to insert one document
 
