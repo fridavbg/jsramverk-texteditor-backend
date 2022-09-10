@@ -65,27 +65,28 @@ const docs = {
             await db.client.close();
         }
     },
-    updateDoc: async function updateDoc(id) {
+    updateDoc: async function updateDoc(id, doc) {
         let db;
 
         try {
-            console.log("update");
+            db = await database.getDb();
 
-            // db = await database.getDb(id);
+            const filter = { _id: ObjectId(id) };
 
-            // const filter = { _id: id };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+                $set: {
+                    title: `${doc.title}`,
+                    description: `${doc.description}`,
+                },
+            };
 
-            // const updateDoc = {
-            //     $set: {
-            //         title: `${title}`,
-            //         description: `${description}`,
-            //     },
-            // };
-            // const result = await db.collection.updateOne(filter, updateDoc);
+            const result = await db.collection.updateOne(filter, updateDoc);
 
-            // console.log(
-            //     `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
-            // );
+            return {
+                ...updateDoc,
+                _id: result.insertedId,
+            };
         } catch (error) {
             console.error(error.message);
         } finally {

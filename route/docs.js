@@ -24,6 +24,12 @@ router.get("/edit/(:id)", async (req, res) => {
     res.status(201).json({ data: result });
 });
 
+router.put("/edit/(:id)", async (req, res) => {
+    const updateDoc = req.body;
+    const result = await docModel.updateDoc(req.params.id, updateDoc);
+    res.status(201).json({ data: result });
+});
+
 router.post("/init", async (req, res) => {
     await docModel.init();
 

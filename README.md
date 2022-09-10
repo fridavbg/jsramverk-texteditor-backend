@@ -45,11 +45,15 @@ Displays a main page
         - title
         - description  
 
+### Get document by id
+`http://localhost:1337/docs/edit/:id`
+
+* GET request to display details of one document
 ### Update a document
 
-`http://localhost:1337/docs/:_id`
+`http://localhost:1337/docs/edit/:id`
 
-* PUT request to insert one document
+* PUT request to update one document
 
     - Required parameters
         - id
