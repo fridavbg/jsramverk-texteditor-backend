@@ -68,25 +68,21 @@ const docs = {
     updateDoc: async function updateDoc(id, doc) {
         let db;
 
+        const filter = { _id: ObjectId(id) };
+
+        const updateDoc = {
+            $set: {
+                title: `${doc.title}`,
+                description: `${doc.description}`,
+            },
+        };
+
         try {
             db = await database.getDb();
 
-            const filter = { _id: ObjectId(id) };
-
-            // create a document that sets the plot of the movie
-            const updateDoc = {
-                $set: {
-                    title: `${doc.title}`,
-                    description: `${doc.description}`,
-                },
-            };
-
             const result = await db.collection.updateOne(filter, updateDoc);
 
-            return {
-                ...updateDoc,
-                _id: result.insertedId,
-            };
+            return result.json();
         } catch (error) {
             console.error(error.message);
         } finally {
