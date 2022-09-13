@@ -1,20 +1,18 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
+const docs = require("./route/docs.js");
+
 const app = express();
-
-const docs = require("./routes/docs");
-
 const port = process.env.PORT || 1337;
 
 app.use(cors());
 app.options("*", cors());
 
 app.disable("x-powered-by");
-
-app.set("view engine", "ejs");
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== "test") {
@@ -29,13 +27,9 @@ app.use("/docs", docs);
 
 // Add a route
 app.get("/", (req, res) => {
-    const data = {
-        data: {
-            msg: "Mainpage",
-        },
-    };
-
-    res.json(data);
+    res.json({
+        msg: "Main page",
+    });
 });
 
 // Start up server
