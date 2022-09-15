@@ -15,8 +15,16 @@ router.get("/", async (req, res) => {
 router.post("/create", async (req, res) => {
     const newDoc = req.body;
 
-    const result = await docModel.insertDoc(newDoc);
-    res.status(201).json({ data: result });
+    if (newDoc.title && newDoc.description) {
+        const result = await docModel.insertDoc(newDoc);
+        res.status(201).json({ data: result });
+    } else {
+        return res.status(400).json({
+            errors: {
+                message: "No document was added, please try again.",
+            },
+        });
+    }
 });
 
 router.get("/edit/(:id)", async (req, res) => {

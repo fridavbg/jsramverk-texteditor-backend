@@ -86,4 +86,24 @@ describe("POST /docs/create", () => {
                 done();
             });
     });
+    it("201 Not able to create new document", (done) => {
+        let doc = {
+            description: "Testy test test",
+        };
+
+        chai.request(server)
+            .post("/docs/create")
+            .send(doc)
+            .end((err, res) => {
+                res.should.have.status(400);
+                res.body.should.be.an("object");
+                res.body.should.have.property("errors");
+                res.body.errors.should.have.property("message");
+                res.body.errors.message.should.equal(
+                    "No document was added, please try again."
+                );
+
+                done();
+            });
+    });
 });
