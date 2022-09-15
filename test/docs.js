@@ -86,6 +86,19 @@ describe("POST /docs/create", () => {
                 done();
             });
     });
+
+    it("200 HAPPY PATH", (done) => {
+        chai.request(server)
+            .get("/docs")
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.an("object");
+                res.body.data.should.be.an("array");
+                // res.body.data.length.should.be.equal(0);
+                done();
+            });
+    });
+
     it("201 Not able to create new document", (done) => {
         let doc = {
             description: "Testy test test",
@@ -103,6 +116,17 @@ describe("POST /docs/create", () => {
                     "No document was added, please try again."
                 );
 
+                done();
+            });
+    });
+    it("200 HAPPY PATH", (done) => {
+        chai.request(server)
+            .get("/docs")
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.an("object");
+                res.body.data.should.be.an("array");
+                // res.body.data.length.should.be.equal(0);
                 done();
             });
     });
