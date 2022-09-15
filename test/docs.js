@@ -1,4 +1,3 @@
-/* global before it describe */
 process.env.NODE_ENV = "test";
 
 const chai = require("chai");
@@ -14,7 +13,7 @@ const collectionName = "crowd";
 
 describe("Documents", () => {
     before(() => {
-        const getAllDocs = new Promise(async (resolve) => {
+        return new Promise(async (resolve) => {
             const db = await database.getDb();
             const docs = await db.collection.find().toArray();
 
@@ -24,7 +23,6 @@ describe("Documents", () => {
                 .then(async function (info) {
                     if (info) {
                         await db.collection.drop();
-                        console.log(docs);
                     }
                 })
                 .catch(function (err) {
@@ -32,7 +30,7 @@ describe("Documents", () => {
                 })
                 .finally(async function () {
                     await db.client.close();
-                    resolve(getAllDocs);
+                    resolve();
                 });
         });
     });
@@ -84,27 +82,6 @@ describe("POST /docs/create", () => {
                 res.body.should.have.property("data");
                 res.body.data.should.have.property("title");
                 res.body.data.title.should.equal("Test");
-
-                done();
-            });
-    });
-
-    it("201 Not able to create new document", (done) => {
-        let doc = {
-            description: "Testy test test",
-        };
-
-        chai.request(server)
-            .post("/docs/create")
-            .send(doc)
-            .end((err, res) => {
-                res.should.have.status(400);
-                res.body.should.be.an("object");
-                res.body.should.have.property("errors");
-                res.body.errors.should.have.property("message");
-                res.body.errors.message.should.equal(
-                    "No document was added, did you fill all the boxes?"
-                );
 
                 done();
             });
