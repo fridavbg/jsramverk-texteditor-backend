@@ -1,4 +1,3 @@
-/* global before it describe */
 process.env.NODE_ENV = "test";
 
 const chai = require("chai");
@@ -16,7 +15,7 @@ describe("Documents", () => {
     before(() => {
         return new Promise(async (resolve) => {
             const db = await database.getDb();
-            const doc = await db.collection.find().toArray();
+            const docs = await db.collection.find().toArray();
 
             db.db
                 .listCollections({ name: collectionName })
@@ -24,7 +23,6 @@ describe("Documents", () => {
                 .then(async function (info) {
                     if (info) {
                         await db.collection.drop();
-                        console.log(doc);
                     }
                 })
                 .catch(function (err) {
