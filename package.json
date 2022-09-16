@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000 --exit",
+    "posttest": "npm run eslint",
     "start": "nodemon app.js",
-    "production": "NODE_ENV='production' node app.js"
+    "production": "NODE_ENV='production' node app.js",
+    "eslint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
+    "javascript-style-guide": "^1.0.1",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0"
   }

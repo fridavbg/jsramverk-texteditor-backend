@@ -24,6 +24,7 @@ const docs = {
     },
     getOneDoc: async function getOneDoc(id) {
         let db;
+
         try {
             db = await database.getDb();
             console.log("ID: " + id);
@@ -105,4 +106,5 @@ const docs = {
         }
     },
 };
+
 module.exports = docs;
