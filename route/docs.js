@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var ObjectId = require("mongodb").ObjectID;
 
 const docModel = require("../models/docs");
 
@@ -17,6 +16,7 @@ router.post("/create", async (req, res) => {
 
     if (newDoc.title && newDoc.description) {
         const result = await docModel.insertDoc(newDoc);
+
         res.status(201).json({ data: result });
     } else {
         return res.status(400).json({
@@ -29,12 +29,14 @@ router.post("/create", async (req, res) => {
 
 router.get("/edit/(:id)", async (req, res) => {
     const result = await docModel.getOneDoc(req.params.id);
+
     res.status(201).json({ data: result });
 });
 
 router.post("/edit/(:id)", async (req, res) => {
     const updateDoc = req.body;
     const result = await docModel.updateDoc(req.params.id, updateDoc);
+
     res.status(201).json({ data: result });
 });
 
