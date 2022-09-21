@@ -1,4 +1,3 @@
-/* global before it describe */
 process.env.NODE_ENV = "test";
 
 const chai = require("chai");
@@ -12,24 +11,28 @@ chai.use(chaiHttp);
 const database = require("../db/database.js");
 const collectionName = "crowd";
 
-describe("Documents ", () => {
-    before(async () => {
-        const db = await database.getDb();
+describe("Documents", () => {
+    before(() => {
+        return new Promise(async (resolve) => {
+            const db = await database.getDb();
+            const docs = await db.collection.find().toArray();
 
-        db.db
-            .listCollections({ name: collectionName })
-            .next()
-            .then(async function (info) {
-                if (info) {
-                    await db.collection.drop();
-                }
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-            .finally(async function () {
-                await db.client.close();
-            });
+            db.db
+                .listCollections({ name: collectionName })
+                .next()
+                .then(async function (info) {
+                    if (info) {
+                        await db.collection.drop();
+                    }
+                })
+                .catch(function (err) {
+                    console.error(err);
+                })
+                .finally(async function () {
+                    await db.client.close();
+                    resolve();
+                });
+        });
     });
 });
 
