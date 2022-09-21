@@ -4,7 +4,7 @@ const { ObjectId } = require("mongodb");
 
 const docs = {
     getAllDocs: async function getAllDocs() {
-        let db;
+        let db = await database.getDb();
 
         try {
             db = await database.getDb();
@@ -24,6 +24,7 @@ const docs = {
     },
     getOneDoc: async function getOneDoc(id) {
         let db;
+
         try {
             db = await database.getDb();
             console.log("ID: " + id);
@@ -48,7 +49,7 @@ const docs = {
         }
     },
     insertDoc: async function insertDoc(newDoc) {
-        let db;
+        let db = await database.getDb();
 
         try {
             db = await database.getDb();
@@ -105,4 +106,5 @@ const docs = {
         }
     },
 };
+
 module.exports = docs;
