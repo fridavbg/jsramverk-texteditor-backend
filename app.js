@@ -6,7 +6,10 @@ const morgan = require("morgan");
 
 const docs = require("./route/docs.js");
 
+const docModel = require("./models/docs.js");
+
 const app = express();
+const httpServer = require("http").createServer(app);
 const port = process.env.PORT || 1337;
 
 app.use(cors());
@@ -32,9 +35,25 @@ app.get("/", (req, res) => {
     });
 });
 
-// Start up server
-const server = app.listen(port, () =>
-    console.log(`Example API listening on port ${port}!`)
-);
+const io = require("socket.io")(httpServer, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+    },
+});
+
+io.sockets.on("connection", function (socket) {
+    console.log(socket.id); // Nått lång och slumpat
+
+    socket.on("amounts", function (data) {
+        socket.broadcast.emit("amounts", data);
+
+        docModel.updateAmounts(data);
+    });
+});
+
+const server = httpServer.listen(port, () => {
+    console.log("Document api listening on port " + port);
+});
 
 module.exports = server;
