@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -6,10 +7,9 @@ const morgan = require("morgan");
 
 const docs = require("./route/docs.js");
 
-const docModel = require("./models/docs.js");
-
 const app = express();
 const httpServer = require("http").createServer(app);
+
 const port = process.env.PORT || 1337;
 
 app.use(cors());
@@ -37,18 +37,19 @@ app.get("/", (req, res) => {
 
 const io = require("socket.io")(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
         methods: ["GET", "POST"],
     },
 });
 
 io.sockets.on("connection", function (socket) {
-    console.log(socket.id); // Nått lång och slumpat
-
-    socket.on("amounts", function (data) {
-        socket.broadcast.emit("amounts", data);
-
-        docModel.updateAmounts(data);
+    console.log(socket.id);
+    socket.on("update", function (data) {
+        socket.to(data["_id"]).emit("update", data);
+        socket.broadcast.emit("update", data);
+        // WHY IS DATA UNDEFINED
+        console.log("DATA: ");
+        console.log(data);
     });
 });
 

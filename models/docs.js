@@ -27,15 +27,12 @@ const docs = {
 
         try {
             db = await database.getDb();
-            console.log("ID: " + id);
 
             const docById = await db.collection
                 .find({
                     _id: ObjectId(id),
                 })
                 .toArray();
-
-            console.log("Doc: " + docById);
 
             return docById;
         } catch (error) {
@@ -69,21 +66,33 @@ const docs = {
     updateDoc: async function updateDoc(id, doc) {
         let db;
 
-        const filter = { _id: ObjectId(id) };
-
-        const updateDoc = {
-            $set: {
-                title: `${doc.title}`,
-                description: `${doc.description}`,
-            },
-        };
-
         try {
             db = await database.getDb();
 
-            const result = await db.collection.updateOne(filter, updateDoc);
+            const filter = { _id: ObjectId(id) };
 
-            return result.json();
+            const updateDoc = {
+                $set: {
+                    title: `${doc.title}`,
+                    description: `${doc.description}`,
+                },
+            };
+
+            await db.collection.updateOne(filter, updateDoc);
+        } catch (error) {
+            console.error(error.message);
+        } finally {
+            await db.client.close();
+        }
+    },
+    deleteDoc: async function deleteDoc(docToDelete) {
+        let db;
+
+        try {
+            db = await database.getDb();
+            const filter = { _ID: ObjectId(docToDelete._id) };
+
+            await db.collection.deleteOne(filter);
         } catch (error) {
             console.error(error.message);
         } finally {
