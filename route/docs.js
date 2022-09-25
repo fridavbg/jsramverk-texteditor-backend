@@ -40,6 +40,10 @@ router.post("/edit/(:id)", async (req, res) => {
     res.status(201).json({ data: result });
 });
 
+router.delete("/delete/(:id)", async (req, res) => {
+    console.log(req.params.id);
+});
+
 router.post("/init", async (req, res) => {
     await docModel.init();
 

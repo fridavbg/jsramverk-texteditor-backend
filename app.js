@@ -47,7 +47,6 @@ io.sockets.on("connection", function (socket) {
     socket.on("update", function (data) {
         socket.to(data["_id"]).emit("update", data);
         socket.broadcast.emit("update", data);
-        // WHY IS DATA UNDEFINED
         console.log("DATA: ");
         console.log(data);
     });
