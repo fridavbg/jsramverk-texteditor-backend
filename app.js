@@ -42,13 +42,19 @@ const io = require("socket.io")(httpServer, {
     },
 });
 
+let throttleTimer;
+
 io.sockets.on("connection", function (socket) {
-    console.log(socket.id);
+    socket.on("create", function (room) {
+        socket.join(room);
+    });
+
     socket.on("update", function (data) {
         socket.to(data["_id"]).emit("update", data);
-        socket.broadcast.emit("update", data);
-        console.log("DATA: ");
-        console.log(data);
+        clearTimeout(throttleTimer);
+        throttleTimer = setTimeout(function () {
+            console.log("Save to db");
+        }, 1000);
     });
 });
 
