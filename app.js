@@ -7,6 +7,8 @@ const morgan = require("morgan");
 
 const docs = require("./route/docs.js");
 
+const docModel = require("./models/docs");
+
 const app = express();
 const httpServer = require("http").createServer(app);
 
@@ -28,7 +30,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/docs", docs);
 
-// Add a route
 app.get("/", (req, res) => {
     res.json({
         msg: "Main page",
@@ -45,14 +46,19 @@ const io = require("socket.io")(httpServer, {
 let throttleTimer;
 
 io.sockets.on("connection", function (socket) {
+    console.log(socket.id);
     socket.on("create", function (room) {
         socket.join(room);
     });
 
     socket.on("update", function (data) {
+        socket.emit("hello", "update");
         socket.to(data["_id"]).emit("update", data);
         clearTimeout(throttleTimer);
         throttleTimer = setTimeout(function () {
+            console.log("DATA");
+            console.log(data);
+            docModel.updateDescription(data);
             console.log("Save to db");
         }, 1000);
     });

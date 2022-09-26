@@ -66,6 +66,8 @@ const docs = {
     updateDoc: async function updateDoc(id, doc) {
         let db;
 
+        console.log(id, doc);
+
         try {
             db = await database.getDb();
 
@@ -113,6 +115,15 @@ const docs = {
         } finally {
             await db.client.close();
         }
+    },
+    updateDescription: function updateDescription(newDescription) {
+        // console.log("DocModel: ");
+        // console.log(newDescription);
+        Object.keys(newDescription).forEach(async (id) => {
+            if (newDescription[id] !== "undefined") {
+                await docs.updateDoc(id, newDescription[id]);
+            }
+        });
     },
 };
 
