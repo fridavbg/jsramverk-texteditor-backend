@@ -35,9 +35,18 @@ router.get("/edit/(:id)", async (req, res) => {
 
 router.post("/edit/(:id)", async (req, res) => {
     const updateDoc = req.body;
-    const result = await docModel.updateDoc(req.params.id, updateDoc);
 
-    res.status(201).json({ data: result });
+    if (updateDoc.title && updateDoc.description) {
+        const result = await docModel.updateDoc(req.params.id, updateDoc);
+
+        res.status(201).json({ data: result });
+    } else {
+        return res.status(400).json({
+            errors: {
+                message: "No document was updated, please try again.",
+            },
+        });
+    }
 });
 
 router.delete("/delete/(:id)", async (req, res) => {

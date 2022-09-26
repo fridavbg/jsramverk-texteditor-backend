@@ -43,8 +43,6 @@ const io = require("socket.io")(httpServer, {
     },
 });
 
-let throttleTimer;
-
 io.sockets.on("connection", function (socket) {
     console.log(socket.id);
     socket.on("create", function (room) {
@@ -52,15 +50,9 @@ io.sockets.on("connection", function (socket) {
     });
 
     socket.on("update", function (data) {
-        socket.emit("hello", "update");
         socket.to(data["_id"]).emit("update", data);
-        clearTimeout(throttleTimer);
-        throttleTimer = setTimeout(function () {
-            console.log("DATA");
-            console.log(data);
-            docModel.updateDescription(data);
-            console.log("Save to db");
-        }, 1000);
+        console.log("DATA");
+        console.log(data);
     });
 });
 
