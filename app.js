@@ -47,10 +47,14 @@ io.sockets.on("connection", function (socket) {
     console.log(socket.id);
     socket.on("create", function (room) {
         socket.join(room);
+        console.log("Room exists with ID:");
+        console.log(room);
     });
 
     socket.on("update", function (data) {
         socket.to(data["_id"]).emit("update", data);
+        console.log(data["_id"]);
+
         console.log("DATA");
         console.log(data);
     });
