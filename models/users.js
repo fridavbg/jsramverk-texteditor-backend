@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 const users = {
-    register: async function register(newUser) {
+    register: async function register(res, newUser) {
         const email = newUser.email;
         const password = newUser.password;
 
@@ -40,10 +40,11 @@ const users = {
             }
             let db = await database.getDb("users");
 
-            console.log("HASH:", hash);
-            return {
-                data: hash,
-            };
+            return res.status(201).json({
+                data: {
+                    message: hash,
+                },
+            });
         });
     },
 };

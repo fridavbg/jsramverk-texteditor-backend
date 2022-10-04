@@ -18,7 +18,7 @@ router.get("/register", (req, res) => {
 router.post("/register", async (req, res) => {
     const newUser = req.body;
 
-    await usersModel.register(newUser);
+    await usersModel.register(res, newUser);
 });
 
 module.exports = router;
