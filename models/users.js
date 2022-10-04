@@ -8,20 +8,32 @@ const bcrypt = require("bcryptjs");
 
 const users = {
     register: async function register(res, newUser) {
-        const user = {
-            email: newUser.email,
-            password: newUser.password,
-        };
+        const email = newUser.email;
+        const password = newUser.password;
 
-        if (!user.email || !user.password) {
-            return res.status(400).json({
+        if (!email || !password) {
+            return {
                 errors: {
                     status: 400,
                     message: "E-mail or password is missing",
                 },
-            });
+            };
         }
-        return user;
+
+        if (!validator.validate(email)) {
+            return {
+                errors: {
+                    status: 400,
+                    message: "E-mail is not in correct format",
+                },
+            };
+        }
+
+        return {
+            email: email,
+            password: password,
+            message: "User successfully created.",
+        };
     },
 };
 
