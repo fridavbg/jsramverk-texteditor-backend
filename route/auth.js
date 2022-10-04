@@ -13,4 +13,16 @@ router.get("/register", (req, res) => {
     });
 });
 
+router.post("/foo", (req, res) => {
+    res.status(200).send({ msg: "Foo!" });
+});
+
+router.post("/register", (req, res) => {
+    const newUser = req.body;
+
+    res.json({
+        newUser: newUser,
+    });
+});
+
 module.exports = router;
