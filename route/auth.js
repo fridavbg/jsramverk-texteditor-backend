@@ -13,16 +13,10 @@ router.get("/register", (req, res) => {
     });
 });
 
-router.post("/foo", (req, res) => {
-    res.status(200).send({ msg: "Foo!" });
-});
-
 router.post("/register", (req, res) => {
-    const newUser = req.body;
+    console.log(req.body);
 
-    res.json({
-        newUser: newUser,
-    });
+    res.status(200).send({ data: req.body });
 });
 
 module.exports = router;
