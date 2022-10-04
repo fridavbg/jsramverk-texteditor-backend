@@ -18,11 +18,11 @@ router.get("/register", (req, res) => {
 router.post("/register", async (req, res) => {
     const newUser = req.body;
 
-    console.log("newUser:", newUser);
+    // console.log("newUser:", newUser);
 
     const result = await usersModel.register(res, newUser);
 
-    // return res.status(200).json({ data: result });
+    res.status(201).json({ data: result });
 });
 
 module.exports = router;
