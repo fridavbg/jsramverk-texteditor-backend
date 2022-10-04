@@ -6,8 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 
 const docs = require("./route/docs.js");
-
-const docModel = require("./models/docs");
+const auth = require("./route/auth.js");
 
 const app = express();
 const httpServer = require("http").createServer(app);
@@ -29,6 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/docs", docs);
+app.use("/auth", auth);
 
 app.get("/", (req, res) => {
     res.json({
