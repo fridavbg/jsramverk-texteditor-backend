@@ -41,8 +41,9 @@ const users = {
             let db = await database.getDb("users");
 
             return res.status(201).json({
-                data: {
-                    message: hash,
+                user: {
+                    email: email,
+                    password: hash,
                 },
             });
         });
