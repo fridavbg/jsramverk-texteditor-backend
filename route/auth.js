@@ -7,4 +7,10 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/register", (req, res) => {
+    res.json({
+        msg: "Register page",
+    });
+});
+
 module.exports = router;
