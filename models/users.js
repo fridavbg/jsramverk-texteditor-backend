@@ -65,6 +65,49 @@ const users = {
             }
         });
     },
+    login: async function login(res, userInfo) {
+        const email = userInfo.email;
+        const password = userInfo.password;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    message: "E-mail or password is missing",
+                },
+            });
+        }
+        let db = await database.getDb("users");
+
+        try {
+            const query = { email: email };
+
+            const user = await db.collection.findOne(query);
+
+            console.log(user);
+
+            return res.json(user);
+
+            // if (user) {
+            //     return users.comparePasswords(res, user, password);
+            // }
+
+            // return res.status(401).json({
+            //     data: {
+            //         message: "User does not exist.",
+            //     },
+            // });
+        } catch (error) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    message: "Could not find user",
+                },
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
 };
 
 module.exports = users;

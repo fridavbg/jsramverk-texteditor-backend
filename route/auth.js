@@ -22,9 +22,9 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-    const newUser = req.body;
+    const user = req.body;
 
-    await usersModel.login(res, newUser);
+    await usersModel.login(res, user);
 });
 
 module.exports = router;
