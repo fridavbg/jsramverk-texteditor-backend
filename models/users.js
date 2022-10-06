@@ -39,7 +39,7 @@ const users = {
                 });
             }
 
-            return res.status(204).json({
+            return res.status(201).json({
                 user: {
                     email: email,
                     password: hash,
