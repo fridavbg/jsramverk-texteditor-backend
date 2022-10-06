@@ -39,12 +39,30 @@ const users = {
                 });
             }
 
-            return res.status(201).json({
-                user: {
+            let db = await database.getDb("users");
+
+            try {
+                const user = {
                     email: email,
                     password: hash,
-                },
-            });
+                };
+
+                await db.collection.insertOne(user);
+                return res.status(201).json({
+                    data: {
+                        message: "User has been registered",
+                    },
+                });
+            } catch (error) {
+                return res.status(500).json({
+                    errors: {
+                        status: 500,
+                        message: "Unable to register user",
+                    },
+                });
+            } finally {
+                await db.client.close();
+            }
         });
     },
 };
