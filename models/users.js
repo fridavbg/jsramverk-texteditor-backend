@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 
 const saltRounds = 10;
 
+const jwt = require("jsonwebtoken");
+
 const users = {
     register: async function register(res, newUser) {
         const email = newUser.email;
@@ -84,19 +86,15 @@ const users = {
 
             const user = await db.collection.findOne(query);
 
-            console.log(user);
+            if (user) {
+                return users.comparePasswords(res, user, password);
+            }
 
-            return res.json(user);
-
-            // if (user) {
-            //     return users.comparePasswords(res, user, password);
-            // }
-
-            // return res.status(401).json({
-            //     data: {
-            //         message: "User does not exist.",
-            //     },
-            // });
+            return res.status(401).json({
+                data: {
+                    message: "User does not exist.",
+                },
+            });
         } catch (error) {
             return res.status(500).json({
                 errors: {
@@ -107,6 +105,41 @@ const users = {
         } finally {
             await db.client.close();
         }
+    },
+    comparePasswords: async function comparePasswords(res, user, password) {
+        bcrypt.compare(password, user.password, function (err, result) {
+            if (err) {
+                return res.status(500).json({
+                    errors: {
+                        status: 500,
+                        message: "Could not decrypt password.",
+                    },
+                });
+            }
+
+            if (result) {
+                const payload = { email: user.email };
+                const secret = process.env.JWT_SECRET;
+
+                const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+
+                return res.status(201).json({
+                    data: {
+                        _id: user["_id"],
+                        email: user.email,
+                        token: token,
+                        msg: "User logged in",
+                    },
+                });
+            }
+
+            return res.status(401).json({
+                errors: {
+                    status: 401,
+                    message: "Password not correct",
+                },
+            });
+        });
     },
 };
 
