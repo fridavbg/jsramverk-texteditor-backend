@@ -13,34 +13,33 @@ const users = {
         const password = newUser.password;
 
         if (!email || !password) {
-            return {
+            return res.status(400).json({
                 errors: {
                     status: 400,
                     message: "E-mail or password is missing",
                 },
-            };
+            });
         }
 
         if (!validator.validate(email)) {
-            return {
+            return res.status(400).json({
                 errors: {
                     status: 400,
                     message: "E-mail is not in correct format",
                 },
-            };
+            });
         }
         bcrypt.hash(password, saltRounds, async function (err, hash) {
             if (err) {
-                return {
+                return res.status(500).json({
                     errors: {
                         status: 500,
                         message: "Could not hash password",
                     },
-                };
+                });
             }
-            let db = await database.getDb("users");
 
-            return res.status(201).json({
+            return res.status(204).json({
                 user: {
                     email: email,
                     password: hash,
