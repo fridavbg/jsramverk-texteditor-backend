@@ -141,6 +141,23 @@ const users = {
             });
         });
     },
+    checkToken: function checkToken(req, res, next) {
+        const token = req.headers["x-access-token"];
+
+        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+            if (err) {
+                return res.status(401).json({
+                    errors: {
+                        status: 401,
+                        message: "Token is not valid.",
+                    },
+                });
+            }
+
+            // Valid token send on the request
+            next();
+        });
+    },
 };
 
 module.exports = users;

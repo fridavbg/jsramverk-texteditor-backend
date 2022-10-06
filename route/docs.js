@@ -2,14 +2,19 @@ var express = require("express");
 var router = express.Router();
 
 const docModel = require("../models/docs");
+const usersModel = require("../models/users");
 
-router.get("/", async (req, res) => {
-    const docs = await docModel.getAllDocs();
+router.get(
+    "/",
+    (req, res, next) => usersModel.checkToken(req, res, next),
+    async (req, res) => {
+        const docs = await docModel.getAllDocs();
 
-    return res.json({
-        data: docs,
-    });
-});
+        return res.json({
+            data: docs,
+        });
+    }
+);
 
 router.post("/create", async (req, res) => {
     const newDoc = req.body;
