@@ -5,6 +5,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
+// GRAPHQL
+const visual = true;
+const { graphqlHTTP } = require("express-graphql");
+const { GraphQLSchema } = require("graphql");
+
+const RootQueryType = require("./graphql/root.js");
+
+// ROUTES
 const docs = require("./route/docs.js");
 const auth = require("./route/auth.js");
 
@@ -26,6 +34,18 @@ if (process.env.NODE_ENV !== "test") {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const schema = new GraphQLSchema({
+    query: RootQueryType,
+});
+
+app.use(
+    "/graphql",
+    graphqlHTTP({
+        schema: schema,
+        graphiql: visual, // Visual är satt till true under utveckling
+    })
+);
 
 app.use("/docs", docs);
 app.use("/auth", auth);
