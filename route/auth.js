@@ -3,9 +3,12 @@ var router = express.Router();
 
 const usersModel = require("../models/users");
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    const users = await usersModel.getAllUsers();
+
     res.json({
         msg: "Auth page",
+        users: users,
     });
 });
 

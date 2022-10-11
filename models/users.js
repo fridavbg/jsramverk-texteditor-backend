@@ -10,6 +10,23 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 
 const users = {
+    getAllUsers: async function getAllUsers() {
+        let db = await database.getDb("users");
+
+        try {
+            const allUsers = await db.collection.find().toArray();
+
+            return allUsers;
+        } catch (error) {
+            return {
+                errors: {
+                    message: error.message,
+                },
+            };
+        } finally {
+            await db.client.close();
+        }
+    },
     register: async function register(res, newUser) {
         const email = newUser.email;
         const password = newUser.password;

@@ -4,9 +4,6 @@ const UserType = new GraphQLObjectType({
     name: "Document",
     description: "This represents a document",
     fields: () => ({
-        id: {
-            type: GraphQLNonNull(GraphQLString),
-        },
         email: { type: GraphQLNonNull(GraphQLString) },
         password: { type: GraphQLNonNull(GraphQLString) },
     }),
