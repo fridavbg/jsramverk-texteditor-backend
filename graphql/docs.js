@@ -4,11 +4,9 @@ const DocType = new GraphQLObjectType({
     name: "Document",
     description: "This represents a document",
     fields: () => ({
-        id: {
-            type: GraphQLNonNull(GraphQLString),
-        },
-        title: { type: GraphQLNonNull(GraphQLString) },
-        description: { type: GraphQLNonNull(GraphQLString) },
+        id: { type: GraphQLString },
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
     }),
 });
 
