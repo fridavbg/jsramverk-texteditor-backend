@@ -34,6 +34,8 @@ const docs = {
                 })
                 .toArray();
 
+            console.log(docById);
+
             return docById;
         } catch (error) {
             return {
@@ -115,7 +117,7 @@ const docs = {
         } finally {
             await db.client.close();
         }
-    }
+    },
 };
 
 module.exports = docs;
