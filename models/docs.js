@@ -34,7 +34,7 @@ const docs = {
                 })
                 .toArray();
 
-            console.log(docById);
+            console.log("Model", docById);
 
             return docById;
         } catch (error) {
