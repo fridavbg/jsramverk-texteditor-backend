@@ -20,10 +20,10 @@ const RootQueryType = new GraphQLObjectType({
             type: DocType,
             description: "One document by _id",
             args: {
-                id: { type: GraphQLString },
+                _id: { type: new GraphQLNonNull(GraphQLString) },
             },
             resolve: async function (parent, args) {
-                const document = await docModel.getOneDoc(args.id);
+                const document = await docModel.getOneDoc(args._id);
 
                 console.log("Root:", document);
 

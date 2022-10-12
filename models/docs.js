@@ -28,11 +28,9 @@ const docs = {
         try {
             db = await database.getDb();
 
-            const docById = await db.collection
-                .find({
-                    _id: ObjectId(id),
-                })
-                .toArray();
+            const docById = await db.collection.findOne({
+                _id: ObjectId(id),
+            });
 
             console.log("Model", docById);
 
