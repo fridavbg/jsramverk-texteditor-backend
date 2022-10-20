@@ -15,6 +15,7 @@ const RootQueryType = require("./graphql/root.js");
 // ROUTES
 const docs = require("./route/docs.js");
 const auth = require("./route/auth.js");
+const mail = require("./route/mail.js");
 
 const app = express();
 const httpServer = require("http").createServer(app);
@@ -49,6 +50,7 @@ app.use(
 
 app.use("/docs", docs);
 app.use("/auth", auth);
+app.use("/mail", mail);
 
 app.get("/", (req, res) => {
     res.json({

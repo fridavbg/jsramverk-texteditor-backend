@@ -5,12 +5,12 @@ const domain = process.env.DOMAIN;
 
 const mailgun = require("mailgun-js")({ apiKey: api_key, domain: domain });
 
-function getMessage() {
+function getMessage(email = "fperssontech@gmail.com") {
     const body = "This is a test email using Mailgun from Node.js";
 
     return {
         from: "Frida <fperssontech@gmail.com>",
-        to: "fperssontech@gmail.com",
+        to: email,
         subject: "Hello",
         text: body,
         html: `<h1>${body}</h1>`,
@@ -34,4 +34,5 @@ async function sendEmail() {
     }
 }
 
-sendEmail();
+module.exports = { sendEmail };
+
