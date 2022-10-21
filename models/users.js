@@ -1,7 +1,5 @@
 const database = require("../db/database");
 
-const { ObjectId } = require("mongodb");
-
 const validator = require("email-validator");
 const bcrypt = require("bcryptjs");
 

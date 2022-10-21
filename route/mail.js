@@ -5,20 +5,27 @@ const usersModel = require("../models/users");
 const emailModel = require("../models/mail");
 
 router.get("/", (req, res) => {
-    // WRAPPA med USER INLOGG!!!!
     return res.json({
         mail: "mail",
     });
 });
 
-router.get("/send", async (req, res) => {
-    const mail = await emailModel.sendEmail();
+router.post(
+    "/send",
+    // (req, res, next) => usersModel.checkToken(req, res, next),
+    async (req, res) => {
+        const mailInput = req.body;
 
-    console.log(mail);
+        const mail = await emailModel.sendEmail(mailInput);
 
-    return res.json({
-        msg: "Email has been sent",
-    });
-});
+        // console.log("Mail confirmation:");
+        // console.log(mail);
+
+        return res.json({
+            msg: "Email has been sent",
+            mail: mailInput,
+        });
+    }
+);
 
 module.exports = router;

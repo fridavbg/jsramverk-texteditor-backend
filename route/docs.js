@@ -17,8 +17,22 @@ router.get(
 );
 
 router.post("/create", async (req, res) => {
+    // ADD ON COMMENTS ARRAY
+    let comments = [
+        {
+            user: "fperssontech@gmail.com",
+            comment: "API TEST 1",
+            lines: 14,
+        },
+        {
+            user: "frpe21@student.bth.com",
+            comment: "API TEST 4",
+            lines: 23,
+        },
+    ];
     const newDoc = req.body;
 
+    console.log(newDoc);
     if (newDoc.title && newDoc.description) {
         const result = await docModel.insertDoc(newDoc);
 

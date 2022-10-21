@@ -5,26 +5,36 @@ const domain = process.env.DOMAIN;
 
 const mailgun = require("mailgun-js")({ apiKey: api_key, domain: domain });
 
-function getMessage(email = "fperssontech@gmail.com") {
-    const body = "This is a test email using Mailgun from Node.js";
+function getMessage(email) {
+    const body = "You have been invited to edit a Document";
 
     return {
         from: "Frida <fperssontech@gmail.com>",
-        to: email,
-        subject: "Hello",
+        to: email.mail_input,
+        subject: "Texteditor invite",
         text: body,
-        html: `<h1>${body}</h1>`,
+        html: `
+            <h1>${body}</h1>
+            <p>Follow the link below to get to the editor</p>
+            <a href="https://www.student.bth.se/~frpe21/editor">Text Editor</a>
+        `,
     };
 }
 
-async function sendEmail() {
+async function sendEmail(mailInput) {
     try {
-        await mailgun.messages().send(getMessage(), function (error, body) {
-            if (error) {
-                console.log(error);
-            }
-            console.log(body);
-        });
+        await mailgun
+            .messages()
+            .send(getMessage(mailInput), function (error, body) {
+                if (error) {
+                    // RETURNERA TEXT
+                    console.log(mailInput);
+
+                    console.log(error);
+                }
+                // RETURNERA TEXT
+                console.log(body);
+            });
     } catch (error) {
         console.error("Error sending test email");
         console.error(error);
@@ -35,4 +45,3 @@ async function sendEmail() {
 }
 
 module.exports = { sendEmail };
-
