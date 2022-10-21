@@ -10,7 +10,7 @@ function getMessage(email) {
 
     return {
         from: "Frida <fperssontech@gmail.com>",
-        to: email.mail_input,
+        to: email.mail,
         subject: "Texteditor invite",
         text: body,
         html: `
