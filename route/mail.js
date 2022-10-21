@@ -12,18 +12,14 @@ router.get("/", (req, res) => {
 
 router.post(
     "/send",
-    (req, res, next) => usersModel.checkToken(req, res, next),
+    // (req, res, next) => usersModel.checkToken(req, res, next),
     async (req, res) => {
         const mailInput = req.body;
 
-        const mail = await emailModel.sendEmail(mailInput);
-
-        console.log("Mail confirmation:");
-        console.log(mail);
+        await emailModel.sendEmail(mailInput);
 
         return res.json({
-            msg: "Email has been sent",
-            mail: mailInput,
+            msg: "Email sent to " + mailInput.email,
         });
     }
 );

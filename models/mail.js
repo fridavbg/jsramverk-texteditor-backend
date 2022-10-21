@@ -28,8 +28,6 @@ async function sendEmail(mailInput) {
             .send(getMessage(mailInput), function (error, body) {
                 if (error) {
                     // RETURNERA TEXT
-                    console.log(mailInput);
-
                     console.log(error);
                 }
                 // RETURNERA TEXT
