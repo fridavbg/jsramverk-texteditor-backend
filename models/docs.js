@@ -77,6 +77,7 @@ const docs = {
                 $set: {
                     title: `${doc.title}`,
                     description: `${doc.description}`,
+                    comments: doc.comments,
                 },
             };
 
