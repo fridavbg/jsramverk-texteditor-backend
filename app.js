@@ -77,7 +77,7 @@ io.sockets.on("connection", function (socket) {
         socket.to(data["_id"]).emit("update", data);
         console.log(data["_id"]);
 
-        console.log("DATA");
+        console.log("SOCKET");
         console.log(data);
     });
 });

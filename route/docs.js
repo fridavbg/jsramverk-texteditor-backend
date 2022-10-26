@@ -23,7 +23,7 @@ router.post("/create", async (req, res) => {
         comments: [],
     };
 
-    console.log(newDoc);
+    // console.log(newDoc);
     if (newDoc.title && newDoc.description) {
         const result = await docModel.insertDoc(newDoc);
 
