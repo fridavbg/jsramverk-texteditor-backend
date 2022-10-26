@@ -10,18 +10,14 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post(
-    "/send",
-    (req, res, next) => usersModel.checkToken(req, res, next),
-    async (req, res) => {
-        const mailInput = req.body;
+router.post("/send", async (req, res) => {
+    const mailInput = req.body;
 
-        await emailModel.sendEmail(mailInput);
+    await emailModel.sendEmail(mailInput);
 
-        return res.json({
-            msg: "Email sent to " + mailInput.mail,
-        });
-    }
-);
+    return res.json({
+        msg: "Email sent to " + mailInput.mail,
+    });
+});
 
 module.exports = router;
