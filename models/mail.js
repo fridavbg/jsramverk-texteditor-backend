@@ -1,9 +1,9 @@
 require("dotenv").config();
 
-const api_key = process.env.API_KEY;
+const apiKey = process.env.API_KEY;
 const domain = process.env.DOMAIN;
 
-const mailgun = require("mailgun-js")({ apiKey: api_key, domain: domain });
+const mailgun = require("mailgun-js")({ apiKey: apiKey, domain: domain });
 
 function getMessage(email) {
     const body = "You have been invited to edit a Document";

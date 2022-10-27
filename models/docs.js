@@ -23,11 +23,9 @@ const docs = {
         }
     },
     getOneDoc: async function getOneDoc(id) {
-        let db;
+        let db = await database.getDb();
 
         try {
-            db = await database.getDb();
-
             const docById = await db.collection.findOne({
                 _id: ObjectId(id),
             });
@@ -64,12 +62,11 @@ const docs = {
         }
     },
     updateDoc: async function updateDoc(id, doc) {
-        let db;
-
-        console.log(id, doc);
+        // console.log(id, doc);
+        let db = await database.getDb();
 
         try {
-            db = await database.getDb();
+            let db = await database.getDb();
 
             const filter = { _id: ObjectId(id) };
 

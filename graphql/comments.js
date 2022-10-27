@@ -6,6 +6,7 @@ const CommentType = new GraphQLObjectType({
     fields: () => ({
         user: { type: GraphQLString },
         comment: { type: GraphQLString },
+        color: { type: GraphQLString },
         range: {
             type: new GraphQLObjectType({
                 name: "Range",
