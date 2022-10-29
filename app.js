@@ -6,7 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 
 // GRAPHQL
-const visual = true;
+const visual = false;
 const { graphqlHTTP } = require("express-graphql");
 const { GraphQLSchema } = require("graphql");
 

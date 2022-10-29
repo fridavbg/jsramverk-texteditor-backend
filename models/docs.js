@@ -30,9 +30,8 @@ const docs = {
                 _id: ObjectId(id),
             });
 
-            console.log("Model", docById);
 
-            return docById;
+            return docById.comments;
         } catch (error) {
             return {
                 errors: {
@@ -62,7 +61,7 @@ const docs = {
         }
     },
     updateDoc: async function updateDoc(id, doc) {
-        // console.log(id, doc);
+        console.log(id, doc);
         let db = await database.getDb();
 
         try {
