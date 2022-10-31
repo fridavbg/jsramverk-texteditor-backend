@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
 
-const usersModel = require("../models/users");
+process.env.NODE_ENV = "test";
+
 const emailModel = require("../models/mail");
 
 router.get("/", (req, res) => {
