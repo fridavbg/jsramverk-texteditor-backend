@@ -7,8 +7,6 @@ const docs = {
         let db = await database.getDb();
 
         try {
-            db = await database.getDb();
-
             const allDocs = await db.collection.find().toArray();
 
             return allDocs;
@@ -30,7 +28,6 @@ const docs = {
                 _id: ObjectId(id),
             });
 
-
             return docById.comments;
         } catch (error) {
             return {
@@ -46,8 +43,6 @@ const docs = {
         let db = await database.getDb();
 
         try {
-            db = await database.getDb();
-
             const result = await db.collection.insertOne(newDoc);
 
             return {
@@ -85,10 +80,9 @@ const docs = {
         }
     },
     deleteDoc: async function deleteDoc(docToDelete) {
-        let db;
+        let db = await database.getDb();
 
         try {
-            db = await database.getDb();
             const filter = { _ID: ObjectId(docToDelete._id) };
 
             await db.collection.deleteOne(filter);
