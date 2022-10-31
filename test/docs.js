@@ -50,14 +50,14 @@ describe("Main", () => {
 
 describe("Document", () => {
     describe("GET /docs", () => {
-        it("200 HAPPY PATH", (done) => {
+        it("401 UNHAPPY PATH", (done) => {
             chai.request(server)
                 .get("/docs")
                 .end((err, res) => {
-                    res.should.have.status(200);
+                    res.should.have.status(401);
                     res.body.should.be.an("object");
-                    res.body.data.should.be.an("array");
-                    // res.body.data.length.should.be.equal(0);
+                    res.body.should.have.property("errors");
+                    res.body.errors.message.should.equal("Token is not valid.");
                     done();
                 });
         });

@@ -59,7 +59,8 @@ router.post("/edit/(:id)", async (req, res) => {
     }
 });
 
-router.delete("/delete/(:id)", async (req, res) => {
+// eslint-disable-next-line no-unused-vars
+router.delete("/delete/(:id)", async (req, _res) => {
     console.log(req.params.id);
 });
 

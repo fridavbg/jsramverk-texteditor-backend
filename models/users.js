@@ -159,7 +159,8 @@ const users = {
     checkToken: function checkToken(req, res, next) {
         const token = req.headers["x-access-token"];
 
-        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+        // eslint-disable-next-line no-unused-vars
+        jwt.verify(token, process.env.JWT_SECRET, function (err, _decoded) {
             if (err) {
                 return res.status(401).json({
                     errors: {
